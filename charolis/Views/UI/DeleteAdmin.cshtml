@@ -1,0 +1,12 @@
+@model charolis.Models.Admin
+
+<h2>admin delete</h2>
+
+<p>Are you sure that you want to delete this admin @Model.Name ?</p>
+
+<form asp-action="DeleteAdmin" method="post">
+    <input type="hidden" asp-for="Id"/>
+    <button type="submit">Yeah, sure</button>
+</form>
+
+<a href="@Url.Action("Admins")">Decline</a>

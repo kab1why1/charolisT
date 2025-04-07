@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css",
+      "PackagePath": "staticwebassets\\charolis.9j1a6g0euz.bundle.scp.css"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.charolis.props",
+      "PackagePath": "build\\charolis.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.charolis.props",
+      "PackagePath": "buildMultiTargeting\\charolis.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.charolis.props",
+      "PackagePath": "buildTransitive\\charolis.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.charolis.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.charolis.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -1,0 +1,16 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/charolis/charolis.9j1a6g0euz.bundle.scp.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\charolis.9j1a6g0euz.bundle.scp.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"9j1a6g0euz"},{"Name":"integrity","Value":"sha256-u1Ozjqvos6ewlsPAH2OaNItIIz/0BFQcoVMlD6QB2is="},{"Name":"label","Value":"_content/charolis/charolis.bundle.scp.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"57"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022u1Ozjqvos6ewlsPAH2OaNItIIz/0BFQcoVMlD6QB2is=\u0022"},{"Name":"Last-Modified","Value":"Mon, 31 Mar 2025 08:58:15 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/charolis/charolis.bundle.scp.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\charolis.9j1a6g0euz.bundle.scp.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-u1Ozjqvos6ewlsPAH2OaNItIIz/0BFQcoVMlD6QB2is="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"57"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022u1Ozjqvos6ewlsPAH2OaNItIIz/0BFQcoVMlD6QB2is=\u0022"},{"Name":"Last-Modified","Value":"Mon, 31 Mar 2025 08:58:15 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+  </ItemGroup>
+</Project>

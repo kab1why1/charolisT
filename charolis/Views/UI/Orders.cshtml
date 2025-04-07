@@ -1,0 +1,101 @@
+@model IEnumerable<charolis.Models.Order>
+@{
+    ViewBag.Title = "Список замовлень";
+}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: #e9ecef;
+        margin: 0;
+        padding: 20px;
+        color: #343a40;
+    }
+    h2 {
+        font-size: 2em;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #495057;
+    }
+    .table-container {
+        overflow-x: auto;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px auto;
+        background: #fff;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    }
+    thead {
+        background: linear-gradient(135deg, #6c757d, #343a40);
+        color: #fff;
+    }
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #dee2e6;
+    }
+    a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    .btn {
+        display: inline-block;
+        margin: 20px auto;
+        background: linear-gradient(135deg, #28a745, #218838);
+        color: #fff;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .btn:hover {
+        background: linear-gradient(135deg, #218838, #1e7e34);
+    }
+</style>
+
+<div class="table-container">
+    <h2>Список замовлень</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Користувач</th>
+                <th>Продукти</th>
+                <th>Загальна сума</th>
+                <th>Кількість товарів</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach(var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Customer?.Name</td>
+                <td>
+                    @foreach(var product in order.Products)
+                    {
+                        @product.Name <br />
+                    }
+                </td>
+                <td>@order.TotalPrice</td>
+                <td>@order.ProductCount</td>
+                <td>
+                    <a href="@Url.Action("EditOrder", new { id = order.Id })">Редагувати</a> |
+                    <a href="@Url.Action("DeleteOrder", new { id = order.Id })">Видалити</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<div style="text-align: center;">
+    <a href="@Url.Action("CreateOrder")" class="btn">Створити нове замовлення</a>
+</div>

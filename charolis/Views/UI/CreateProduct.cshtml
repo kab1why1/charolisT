@@ -1,0 +1,161 @@
+@model charolis.Models.Product
+
+<style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            color: #2c3e50;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Availability Toggle */
+        .availability-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .availability-container label {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 25px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #1abc9c;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Buttons */
+        button {
+            background: #1abc9c;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #16a085;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            color: #1abc9c;
+        }
+    </style>
+
+    <div class="form-container">
+        <h2>Додати продукт</h2>
+
+        <form asp-action="CreateProduct" method="post">
+            <label>Ім'я</label>
+            <input type="text" name="Name" value="@Model?.Name" required />
+
+            <label>Опис</label>
+            <input type="text" name="Desc" value="@Model?.Desc" required />
+
+            <label>Ціна (₴)</label>
+            <input type="number" name="Price" value="@Model?.Price" required />
+
+            <!-- Availability Toggle -->
+            <div class="availability-container">
+                <label>Наявність</label>
+                <label class="switch">
+                    <input type="checkbox" name="Awailible" value="true">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <button type="submit">Створити</button>
+        </form>
+
+        <a href="@Url.Action("Products")" class="back-link">⬅ Повернутись до списку</a>
+    </div>

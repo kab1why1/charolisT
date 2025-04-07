@@ -1,0 +1,73 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = charolis
+build_property.RootNamespace = charolis
+build_property.ProjectDir = D:\personal\c#\charolis3\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\personal\c#\charolis3
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/personal/c\#/charolis3/Views/UI/Admins.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcQWRtaW5zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/personal/c\#/charolis3/Views/UI/CreateAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcQ3JlYXRlQWRtaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/personal/c\#/charolis3/Views/UI/CreateOrder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcQ3JlYXRlT3JkZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/personal/c\#/charolis3/Views/UI/CreateProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcQ3JlYXRlUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/personal/c\#/charolis3/Views/UI/CreateRegUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcQ3JlYXRlUmVnVXNlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/personal/c\#/charolis3/Views/UI/DeleteAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcRGVsZXRlQWRtaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/personal/c\#/charolis3/Views/UI/EditAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcRWRpdEFkbWluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/personal/c\#/charolis3/Views/UI/EditOrder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcRWRpdE9yZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/personal/c\#/charolis3/Views/UI/EditRegUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcRWRpdFJlZ1VzZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/personal/c\#/charolis3/Views/UI/Orders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcT3JkZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/personal/c\#/charolis3/Views/UI/Products.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcUHJvZHVjdHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/personal/c\#/charolis3/Views/UI/RegUsers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcUmVnVXNlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/personal/c\#/charolis3/Views/UI/Main.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVUlcTWFpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-2ua8yfyl3a

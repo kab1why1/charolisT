@@ -1,0 +1,32 @@
+@model charolis.Models.Order
+@{
+    ViewBag.Title = "Створення замовлення";
+    var regUsers = ViewBag.RegUsers as IEnumerable<charolis.Models.RegUser>;
+    var products = ViewBag.Products as IEnumerable<charolis.Models.Product>;
+}
+
+<h2>Створення замовлення</h2>
+
+<form asp-action="CreateOrder" method="post">
+    <div>
+        <label>Користувач:</label>
+        <select name="regUserId">
+            @foreach(var user in regUsers)
+            {
+                <option value="@user.Id">@user.Name</option>
+            }
+        </select>
+    </div>
+    <br />
+    <div>
+        <label>Продукти:</label>
+        <select name="productIds" multiple="multiple" size="5">
+            @foreach(var product in products)
+            {
+                <option value="@product.Id">@product.Name (@product.Price)</option>
+            }
+        </select>
+    </div>
+    <br />
+    <button type="submit">Створити замовлення</button>
+</form>
