@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Charolis</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav>
+            <ul style="list-style:none; display:flex; gap:10px; padding:10px; background:#2c3e50;">
+                @if (User?.Identity?.IsAuthenticated == true)
+                {
+                    <li><a style="color:#ecf0f1" asp-controller="UI" asp-action="Main">Головна</a></li>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li><a style="color:#ecf0f1" asp-controller="UI" asp-action="Admins">Адміни</a></li>
+                        <li><a style="color:#ecf0f1" asp-controller="UI" asp-action="RegUsers">Користувачі</a></li>
+                    }
+                    <li><a style="color:#ecf0f1" asp-controller="UI" asp-action="Products">Продукти</a></li>
+                    <li><a style="color:#ecf0f1" asp-controller="UI" asp-action="Orders">Замовлення</a></li>
+                    <li>
+                        <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline">
+                            <button type="submit" style="background:none;border:none;color:#ecf0f1;cursor:pointer;">Вийти</button>
+                        </form>
+                    </li>
+                }
+                else
+                {
+                    <li><a style="color:#ecf0f1" asp-controller="Account" asp-action="Login">Увійти</a></li>
+                    <li><a style="color:#ecf0f1" asp-controller="Account" asp-action="Register">Реєстрація</a></li>
+                }
+            </ul>
+        </nav>
+    </header>
+    <main style="padding:20px;">
+        @RenderBody()
+    </main>
+</body>
+</html>

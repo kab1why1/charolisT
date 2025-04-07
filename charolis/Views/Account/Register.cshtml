@@ -1,0 +1,12 @@
+@{
+    ViewBag.Title = "Реєстрація";
+}
+<h2>Реєстрація</h2>
+<form asp-action="Register" method="post">
+    <input name="name" placeholder="Ім'я" required /><br/>
+    <input name="email" type="email" placeholder="Email" required /><br/>
+    <input name="password" type="password" placeholder="Пароль" required /><br/>
+    <input name="phone" placeholder="Телефон" /><br/>
+    <input name="address" placeholder="Адреса" /><br/>
+    <button type="submit">Зареєструватися</button>
+</form>

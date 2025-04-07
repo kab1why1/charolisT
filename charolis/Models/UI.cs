@@ -1,205 +1,193 @@
-    using System;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using System.Collections.Generic;
+using charolis.Models;
 
-    namespace charolis.Models;
-
+namespace charolis.Controllers
+{
+    [Authorize] // Всі дії потребують аутентифікації, окрім позначених [AllowAnonymous]
     public class UIController : Controller
-    {   
-        private readonly AdminRepository _adminRepository;
+    {
+        private readonly AdminRepository   _adminRepository;
         private readonly RegUserRepository _regUserRepository;
-        private readonly GuessRepository _guessRepository;
-        private readonly OrdersRepository _ordersRepository;
+        private readonly GuessRepository   _guessRepository;
+        private readonly OrdersRepository  _ordersRepository;
         private readonly ProductRepository _productRepository;
 
-        public UIController() {
-            _adminRepository = new AdminRepository();
-            _regUserRepository = new RegUserRepository();
-            _guessRepository = new GuessRepository();
-            _ordersRepository = new OrdersRepository();
-            _productRepository = new ProductRepository();
-        }
-
-        public IActionResult Index()
+        public UIController(
+            AdminRepository   adminRepo,
+            RegUserRepository regRepo,
+            GuessRepository   guessRepo,
+            OrdersRepository  ordersRepo,
+            ProductRepository productRepo)
         {
-            return RedirectToAction("Main");
+            _adminRepository   = adminRepo;
+            _regUserRepository = regRepo;
+            _guessRepository   = guessRepo;
+            _ordersRepository  = ordersRepo;
+            _productRepository = productRepo;
         }
 
-        public IActionResult Main()
-        {
-            return View();
-        }
+        [AllowAnonymous]
+        public IActionResult Main() => View();
 
+        // ----- Адмінський функціонал -----
 
-        // admins crud
+        [Authorize(Roles = "admin")]
         public IActionResult Admins() => View(_adminRepository.GetSorted());
+
+        [Authorize(Roles = "admin")]
         public IActionResult CreateAdmin() => View();
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "admin")]
         public IActionResult CreateAdmin(Admin admin)
         {
             _adminRepository.Add(admin);
             return RedirectToAction("Admins");
         }
 
-        public IActionResult EditAdmin(int id) => View(_adminRepository.GetById(id));
+        [Authorize(Roles = "admin")]
+        public IActionResult EditAdmin(int id) => View(_adminRepository.GetById(id)!);
 
-        [HttpPost]
-        public IActionResult EditAdmin(Admin admin) 
+        [HttpPost, Authorize(Roles = "admin")]
+        public IActionResult EditAdmin(Admin admin)
         {
-            var existingAdmin = _adminRepository.GetById(admin.Id);
-            if (existingAdmin != null)
-            {
-                _adminRepository.Remove(existingAdmin);
-            } 
+            var existing = _adminRepository.GetById(admin.Id);
+            if (existing != null) _adminRepository.Remove(existing);
             _adminRepository.Add(admin);
             return RedirectToAction("Admins");
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteAdmin(int id)
         {
             var admin = _adminRepository.GetById(id);
-            if (admin != null)
-            {
-                _adminRepository.Remove(admin);
-            }
+            if (admin != null) _adminRepository.Remove(admin);
             return RedirectToAction("Admins");
         }
 
-        // RegUsers CRUD
+        // ----- Зареєстровані користувачі (адмін тільки) -----
 
+        [Authorize(Roles = "admin")]
         public IActionResult RegUsers() => View(_regUserRepository.GetSorted());
+
+        [Authorize(Roles = "admin")]
         public IActionResult CreateRegUser() => View();
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "admin")]
         public IActionResult CreateRegUser(RegUser regUser)
         {
             _regUserRepository.Add(regUser);
             return RedirectToAction("RegUsers");
         }
 
-        public IActionResult EditRegUser(int id) => View(_regUserRepository.GetById(id));
-        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public IActionResult EditRegUser(int id) => View(_regUserRepository.GetById(id)!);
+
+        [HttpPost, Authorize(Roles = "admin")]
         public IActionResult EditRegUser(RegUser regUser)
         {
-            var existingRegUser = _regUserRepository.GetById(regUser.Id);
-            if(existingRegUser != null)
-            {
-                _regUserRepository.Remove(existingRegUser);
-            }
+            var existing = _regUserRepository.GetById(regUser.Id);
+            if (existing != null) _regUserRepository.Remove(existing);
             _regUserRepository.Add(regUser);
             return RedirectToAction("RegUsers");
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteRegUser(int id)
         {
-            var regUser = _regUserRepository.GetById(id);
-            if(regUser != null)
-            {
-                _regUserRepository.Remove(regUser);
-            }
+            var user = _regUserRepository.GetById(id);
+            if (user != null) _regUserRepository.Remove(user);
             return RedirectToAction("RegUsers");
         }
 
-        // Products CRUD
+        // ----- Продукти (всі аутентифіковані) -----
+
         public IActionResult Products() => View(_productRepository.GetSorted());
+
+        [Authorize(Roles = "admin")]
         public IActionResult CreateProduct() => View();
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "admin")]
         public IActionResult CreateProduct(Product product)
         {
             _productRepository.Add(product);
             return RedirectToAction("Products");
         }
 
-        public IActionResult EditProduct(int id) => View(_productRepository.GetById(id));
+        [Authorize(Roles = "admin")]
+        public IActionResult EditProduct(int id) => View(_productRepository.GetById(id)!);
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "admin")]
         public IActionResult EditProduct(Product product)
         {
-            var existingProduct = _productRepository.GetById(product.Id);
-            if(existingProduct != null)
-            {
-                _productRepository.Remove(existingProduct);
-            }
+            var existing = _productRepository.GetById(product.Id);
+            if (existing != null) _productRepository.Remove(existing);
             _productRepository.Add(product);
             return RedirectToAction("Products");
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteProduct(int id)
         {
-            var product = _productRepository.GetById(id);
-            if (product != null)
-            {
-                _productRepository.Remove(product);
-            }
+            var prod = _productRepository.GetById(id);
+            if (prod != null) _productRepository.Remove(prod);
             return RedirectToAction("Products");
         }
 
-        // Orders CRUD
+        // ----- Замовлення (Registered User та admin) -----
 
-            // Відображення списку всіх замовлень
-            public IActionResult Orders() => View(_ordersRepository.GetSorted());
+        [Authorize(Roles = "Registered User,admin")]
+        public IActionResult Orders() => View(_ordersRepository.GetSorted());
 
-            // GET: Створення замовлення
-            public IActionResult CreateOrder()
-            {
-                // Передаємо існуючих користувачів та продукти у View через ViewBag
-                ViewBag.RegUsers = _regUserRepository.GetSorted();
-                ViewBag.Products = _productRepository.GetSorted();
-                return View();
-            }
+        [Authorize(Roles = "Registered User,admin")]
+        public IActionResult CreateOrder()
+        {
+            ViewBag.RegUsers = _regUserRepository.GetSorted();
+            ViewBag.Products = _productRepository.GetSorted();
+            return View();
+        }
 
-            // POST: Створення замовлення
-            [HttpPost]
-            public IActionResult CreateOrder(Order order, int regUserId, List<int> productIds)
-            {
-                // Встановлюємо існуючого користувача
-                order.Customer = _regUserRepository.GetById(regUserId);
-                // Формуємо список продуктів за вибраними id
-                order.Products = _productRepository.GetAll().Where(p => productIds.Contains(p.Id)).ToList();
-                // Перераховуємо загальну суму та кількість продуктів
-                order.TotalPrice = order.Products.Sum(p => p.Price);
-                order.ProductCount = order.Products.Count;
-                _ordersRepository.Add(order);
-                return RedirectToAction("Orders");
-            }
+        [HttpPost, Authorize(Roles = "Registered User,admin")]
+        public IActionResult CreateOrder(Order order, int regUserId, List<int> productIds)
+        {
+            order.Customer     = _regUserRepository.GetById(regUserId)!;
+            order.Products     = _productRepository.GetAll().Where(p => productIds.Contains(p.Id)).ToList();
+            order.TotalPrice   = order.Products.Sum(p => p.Price);
+            order.ProductCount = order.Products.Count;
+            _ordersRepository.Add(order);
+            return RedirectToAction("Orders");
+        }
 
-            // GET: Редагування замовлення
-            public IActionResult EditOrder(int id)
-            {
-                var order = _ordersRepository.GetById(id);
-                ViewBag.RegUsers = _regUserRepository.GetSorted();
-                ViewBag.Products = _productRepository.GetSorted();
-                return View(order);
-            }
+        [Authorize(Roles = "Registered User,admin")]
+        public IActionResult EditOrder(int id)
+        {
+            ViewBag.RegUsers = _regUserRepository.GetSorted();
+            ViewBag.Products = _productRepository.GetSorted();
+            return View(_ordersRepository.GetById(id)!);
+        }
 
-            // POST: Редагування замовлення
-            [HttpPost]
-            public IActionResult EditOrder(Order order, int regUserId, List<int> productIds)
-            {
-                order.Customer = _regUserRepository.GetById(regUserId);
-                order.Products = _productRepository.GetAll().Where(p => productIds.Contains(p.Id)).ToList();
-                order.TotalPrice = order.Products.Sum(p => p.Price);
-                order.ProductCount = order.Products.Count;
-                // Оновлюємо замовлення: видаляємо старе та додаємо нове (або оновлюємо властивості)
-                var existingOrder = _ordersRepository.GetById(order.Id);
-                if(existingOrder != null)
-                {
-                    _ordersRepository.Remove(existingOrder);
-                }
-                _ordersRepository.Add(order);
-                return RedirectToAction("Orders");
-            }
+        [HttpPost, Authorize(Roles = "Registered User,admin")]
+        public IActionResult EditOrder(Order order, int regUserId, List<int> productIds)
+        {
+            order.Customer     = _regUserRepository.GetById(regUserId)!;
+            order.Products     = _productRepository.GetAll().Where(p => productIds.Contains(p.Id)).ToList();
+            order.TotalPrice   = order.Products.Sum(p => p.Price);
+            order.ProductCount = order.Products.Count;
 
-            // Видалення замовлення
-            public IActionResult DeleteOrder(int id)
-            {
-                var order = _ordersRepository.GetById(id);
-                if(order != null)
-                {
-                    _ordersRepository.Remove(order);
-                }
-                return RedirectToAction("Orders");
-            }
+            var existing = _ordersRepository.GetById(order.Id);
+            if (existing != null) _ordersRepository.Remove(existing);
+            _ordersRepository.Add(order);
+            return RedirectToAction("Orders");
+        }
+
+        [Authorize(Roles = "Registered User,admin")]
+        public IActionResult DeleteOrder(int id)
+        {
+            var order = _ordersRepository.GetById(id);
+            if (order != null) _ordersRepository.Remove(order);
+            return RedirectToAction("Orders");
+        }
     }
+}

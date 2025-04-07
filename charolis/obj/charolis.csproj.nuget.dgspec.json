@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\personal\\c#\\charolis3\\charolis.csproj": {}
+    "D:\\personal\\c#\\charolisT\\charolis\\charolis.csproj": {}
   },
   "projects": {
-    "D:\\personal\\c#\\charolis3\\charolis.csproj": {
+    "D:\\personal\\c#\\charolisT\\charolis\\charolis.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\personal\\c#\\charolis3\\charolis.csproj",
+        "projectUniqueName": "D:\\personal\\c#\\charolisT\\charolis\\charolis.csproj",
         "projectName": "charolis",
-        "projectPath": "D:\\personal\\c#\\charolis3\\charolis.csproj",
+        "projectPath": "D:\\personal\\c#\\charolisT\\charolis\\charolis.csproj",
         "packagesPath": "C:\\Users\\kab1w\\.nuget\\packages\\",
-        "outputPath": "D:\\personal\\c#\\charolis3\\obj\\",
+        "outputPath": "D:\\personal\\c#\\charolisT\\charolis\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\apps\\visualStudio\\comps\\NuGetPackages"
@@ -49,6 +49,12 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

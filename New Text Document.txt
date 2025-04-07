@@ -1,0 +1,1689 @@
+Interfaces
+IEntity.cs
+using System;
+
+namespace charolis.Interfaces;
+
+public interface IEntity
+{
+    int Id { get; set; }
+}
+
+IRepository.cs
+using System;
+using charolis.Models;
+
+namespace charolis.Interfaces;
+
+public interface IRepository<T> where T : IEntity
+{
+    void Add(T entity);
+    void Remove(T entity);
+    T GetById(int id);
+    IEnumerable<T> GetAll();
+    IEnumerable<T> GetSorted();
+}
+
+Models
+
+Admin.cs
+using System;
+
+namespace charolis.Models;
+
+public class Admin : User
+{
+    public string Role { get; set; } = "admin";
+
+    public Admin() : base() { }
+
+    public Admin(string name, string email, string password, string phone, string address) 
+        : base(name, email, password, phone, address)
+    { }
+
+    public override void ShowInfo() {
+        Console.Write($"ID - {Id} Admin {Name}, Email: {Email}, Password: {Password}, Phone: {Phone}, Address: {Address}");
+    }
+
+    
+}
+
+public class AdminRepository : Repository<Admin> { }
+
+BaseEntity.cs
+using System;
+using charolis.Interfaces;
+
+namespace charolis.Models;
+
+public class BaseEntity : IEntity
+{
+    public int Id { get; set; }
+    private static int IdCount = 0;
+
+    public BaseEntity() {
+        Id = IdCount++;
+    }
+}
+
+Guess.cs
+using System;
+
+namespace charolis.Models;
+
+public class Guess : User
+{
+    public string Role { get; set; } = "Guest";
+
+    public Guess() : base() { }
+
+    public override void ShowInfo()
+    {
+        Console.Write($"Id - {Id}. You'r just a guest, mate");
+    }
+
+}
+
+public class GuessRepository : Repository<Guess> { }
+
+Order.cs
+using System;
+namespace charolis.Models;
+
+public class Order : BaseEntity
+{   
+    private RegUser customer;
+    private List<Product> products;
+    private decimal totalPrice;
+    private int productCount;
+
+
+    public RegUser Customer {get => customer; set => customer = value; }
+    public List<Product> Products {get => products; set => products = value; }
+    public decimal TotalPrice {get => totalPrice; set => totalPrice = value; }
+    public int ProductCount {get => productCount; set => productCount = value; }
+
+    public Order()
+    {
+        products = new List<Product>();
+    }
+
+    public Order(RegUser customer, List<Product> products)
+    {   
+        this.customer = customer;
+        this.products = products;
+        CalculateTotal();
+    }
+
+    private void CalculateTotal()
+    {
+        productCount = products.Count;
+        totalPrice = 0;
+        foreach (var product in products)
+        {
+            totalPrice += product.Price;
+        }
+    }
+
+    public void Add(Product product)
+    {
+        products.Add(product);
+        CalculateTotal();
+    }
+
+    public void Remove(Product product)
+    {
+        products.Remove(product);
+        CalculateTotal();
+    }
+
+    public void ShowItems()
+    {
+        foreach (var item in products){
+            Console.Write($"Name - {customer.Name}, Item - {item.Name}, Price - {item.Price} \n");
+        }
+    }
+
+}
+public class OrdersRepository : Repository<Order> { }
+
+Product.cs
+using System;
+
+namespace charolis.Models;
+
+public class Product : BaseEntity
+{
+    private string name;
+    private string desc;
+    private decimal price;
+    private bool availible;
+
+    public string Name {get => name; set => name = value; }
+    public string Desc {get => desc; set => desc = value; }
+    public decimal Price {get => price; set => price = value; }
+    public bool Awailible {get => availible; set => availible = value; }
+
+    public Product() { }
+
+    public Product(string name, string desc, decimal price, bool availible)
+    { 
+        this.name = name;
+        this.desc = desc;
+        this.price = price;
+        this.availible = availible;
+    }
+
+    public override string ToString() => $"ID - {Id}, Name - {Name}, Description - {Desc}, Price - {Price}, Availible - {Awailible}";
+
+}
+
+public class ProductRepository : Repository<Product> { }
+
+RegUser.cs
+using System;
+
+namespace charolis.Models;
+
+public class RegUser : User
+{
+    public string Role { get; set; } = "Registered User";
+
+    public RegUser() : base() { }
+
+    public RegUser(string name, string email, string password, string phone, string address) 
+        : base(name, email, password, phone, address)
+    { }
+
+    public override void ShowInfo()
+    {
+        Console.Write($"ID - {Id}, Registered User {Name}. Email: {Email}, Password: {Password}, Phone: {Phone}, Address: {Address}");
+    }
+
+}
+
+public class RegUserRepository : Repository<RegUser> { }
+
+
+Repository.cs
+using System;
+using charolis.Interfaces;
+
+namespace charolis.Models;
+
+public class Repository<T> : IRepository<T> where T : IEntity
+{
+    protected static List<T> _entities = new List<T>(); // Статичний список зберігає дані між запитами
+
+    public  void Add(T entity)
+    {
+        if (!_entities.Any(e => e.Id == entity.Id)) // Перевіряємо унікальність ID
+        {
+            _entities.Add(entity);
+        }
+    }
+
+    public void Remove(T entity) => _entities.Remove(entity);
+    public T GetById(int id) => _entities.FirstOrDefault(e => e.Id == id);
+    public IEnumerable<T> GetAll() => _entities.ToList(); // Повертаємо копію списку
+    public IEnumerable<T> GetSorted() => _entities.OrderBy(e => e.Id).ToList(); // Сортуємо список
+}
+
+UI.cs
+    using System;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Linq;
+
+    namespace charolis.Models;
+
+    public class UIController : Controller
+    {   
+        private readonly AdminRepository _adminRepository;
+        private readonly RegUserRepository _regUserRepository;
+        private readonly GuessRepository _guessRepository;
+        private readonly OrdersRepository _ordersRepository;
+        private readonly ProductRepository _productRepository;
+
+        public UIController() {
+            _adminRepository = new AdminRepository();
+            _regUserRepository = new RegUserRepository();
+            _guessRepository = new GuessRepository();
+            _ordersRepository = new OrdersRepository();
+            _productRepository = new ProductRepository();
+        }
+
+        public IActionResult Index()
+        {
+            return RedirectToAction("Main");
+        }
+
+        public IActionResult Main()
+        {
+            return View();
+        }
+
+
+        // admins crud
+        public IActionResult Admins() => View(_adminRepository.GetSorted());
+        public IActionResult CreateAdmin() => View();
+
+        [HttpPost]
+        public IActionResult CreateAdmin(Admin admin)
+        {
+            _adminRepository.Add(admin);
+            return RedirectToAction("Admins");
+        }
+
+        public IActionResult EditAdmin(int id) => View(_adminRepository.GetById(id));
+
+        [HttpPost]
+        public IActionResult EditAdmin(Admin admin) 
+        {
+            var existingAdmin = _adminRepository.GetById(admin.Id);
+            if (existingAdmin != null)
+            {
+                _adminRepository.Remove(existingAdmin);
+            } 
+            _adminRepository.Add(admin);
+            return RedirectToAction("Admins");
+        }
+
+        public IActionResult DeleteAdmin(int id)
+        {
+            var admin = _adminRepository.GetById(id);
+            if (admin != null)
+            {
+                _adminRepository.Remove(admin);
+            }
+            return RedirectToAction("Admins");
+        }
+
+        // RegUsers CRUD
+
+        public IActionResult RegUsers() => View(_regUserRepository.GetSorted());
+        public IActionResult CreateRegUser() => View();
+
+        [HttpPost]
+        public IActionResult CreateRegUser(RegUser regUser)
+        {
+            _regUserRepository.Add(regUser);
+            return RedirectToAction("RegUsers");
+        }
+
+        public IActionResult EditRegUser(int id) => View(_regUserRepository.GetById(id));
+        [HttpPost]
+        public IActionResult EditRegUser(RegUser regUser)
+        {
+            var existingRegUser = _regUserRepository.GetById(regUser.Id);
+            if(existingRegUser != null)
+            {
+                _regUserRepository.Remove(existingRegUser);
+            }
+            _regUserRepository.Add(regUser);
+            return RedirectToAction("RegUsers");
+        }
+
+        public IActionResult DeleteRegUser(int id)
+        {
+            var regUser = _regUserRepository.GetById(id);
+            if(regUser != null)
+            {
+                _regUserRepository.Remove(regUser);
+            }
+            return RedirectToAction("RegUsers");
+        }
+
+        // Products CRUD
+        public IActionResult Products() => View(_productRepository.GetSorted());
+        public IActionResult CreateProduct() => View();
+
+        [HttpPost]
+        public IActionResult CreateProduct(Product product)
+        {
+            _productRepository.Add(product);
+            return RedirectToAction("Products");
+        }
+
+        public IActionResult EditProduct(int id) => View(_productRepository.GetById(id));
+
+        [HttpPost]
+        public IActionResult EditProduct(Product product)
+        {
+            var existingProduct = _productRepository.GetById(product.Id);
+            if(existingProduct != null)
+            {
+                _productRepository.Remove(existingProduct);
+            }
+            _productRepository.Add(product);
+            return RedirectToAction("Products");
+        }
+
+        public IActionResult DeleteProduct(int id)
+        {
+            var product = _productRepository.GetById(id);
+            if (product != null)
+            {
+                _productRepository.Remove(product);
+            }
+            return RedirectToAction("Products");
+        }
+
+        // Orders CRUD
+
+            // Відображення списку всіх замовлень
+            public IActionResult Orders() => View(_ordersRepository.GetSorted());
+
+            // GET: Створення замовлення
+            public IActionResult CreateOrder()
+            {
+                // Передаємо існуючих користувачів та продукти у View через ViewBag
+                ViewBag.RegUsers = _regUserRepository.GetSorted();
+                ViewBag.Products = _productRepository.GetSorted();
+                return View();
+            }
+
+            // POST: Створення замовлення
+            [HttpPost]
+            public IActionResult CreateOrder(Order order, int regUserId, List<int> productIds)
+            {
+                // Встановлюємо існуючого користувача
+                order.Customer = _regUserRepository.GetById(regUserId);
+                // Формуємо список продуктів за вибраними id
+                order.Products = _productRepository.GetAll().Where(p => productIds.Contains(p.Id)).ToList();
+                // Перераховуємо загальну суму та кількість продуктів
+                order.TotalPrice = order.Products.Sum(p => p.Price);
+                order.ProductCount = order.Products.Count;
+                _ordersRepository.Add(order);
+                return RedirectToAction("Orders");
+            }
+
+            // GET: Редагування замовлення
+            public IActionResult EditOrder(int id)
+            {
+                var order = _ordersRepository.GetById(id);
+                ViewBag.RegUsers = _regUserRepository.GetSorted();
+                ViewBag.Products = _productRepository.GetSorted();
+                return View(order);
+            }
+
+            // POST: Редагування замовлення
+            [HttpPost]
+            public IActionResult EditOrder(Order order, int regUserId, List<int> productIds)
+            {
+                order.Customer = _regUserRepository.GetById(regUserId);
+                order.Products = _productRepository.GetAll().Where(p => productIds.Contains(p.Id)).ToList();
+                order.TotalPrice = order.Products.Sum(p => p.Price);
+                order.ProductCount = order.Products.Count;
+                // Оновлюємо замовлення: видаляємо старе та додаємо нове (або оновлюємо властивості)
+                var existingOrder = _ordersRepository.GetById(order.Id);
+                if(existingOrder != null)
+                {
+                    _ordersRepository.Remove(existingOrder);
+                }
+                _ordersRepository.Add(order);
+                return RedirectToAction("Orders");
+            }
+
+            // Видалення замовлення
+            public IActionResult DeleteOrder(int id)
+            {
+                var order = _ordersRepository.GetById(id);
+                if(order != null)
+                {
+                    _ordersRepository.Remove(order);
+                }
+                return RedirectToAction("Orders");
+            }
+    }
+
+User.cs
+using System;
+
+namespace charolis.Models;
+
+public abstract class User : BaseEntity
+{
+    private string name;
+    private string email;
+    private string password;
+    private string phone;
+    private string address;
+
+    public string Name {get => name; set => name = value; }
+    public string Email {get => email; set => email = value; }
+    public string Password {get => password; set => password = value; }
+    public string Phone {get => phone; set => phone = value; }
+    public string Address {get => address; set => address = value; }
+
+    public User() { }
+
+    public User(string name, string emeil, string password, string phone, string address)
+    {
+        this.name = name;
+        this.email = emeil;
+        this.password = password;
+        this.phone = phone;
+        this.address = address;
+    }
+    
+    public abstract void ShowInfo();
+}
+
+Views/UI
+
+Admin.cshtml
+<style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+
+        /* Table Styling */
+        table {
+            width: 80%;
+            max-width: 900px;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #2c3e50;
+            color: #ecf0f1;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #1abc9c;
+        }
+
+        /* Buttons */
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 15px;
+            background: #1abc9c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #16a085;
+        }
+    </style>
+
+    <h2>Список адміністраторів</h2>
+
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Ім'я</th>
+            <th>Email</th>
+            <th>Телефон</th>
+            <th>Дії</th>
+        </tr>
+        @foreach (var admin in Model)
+        {
+            <tr>
+                <td>@admin.Id</td>
+                <td>@admin.Name</td>
+                <td>@admin.Email</td>
+                <td>@admin.Phone</td>
+                <td>
+                    <a href="@Url.Action("EditAdmin", new { id = admin.Id })">Редагувати</a> |
+                    <a href="@Url.Action("DeleteAdmin", new { id = admin.Id })" style="color: red;">Видалити</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <a href="@Url.Action("CreateAdmin")" class="button">Додати адміністратора</a>
+    <a href="@Url.Action("Main")" class="button">Назад</a>
+
+CreateAdmin.cshtml
+@model charolis.Models.Admin
+
+<style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+        }
+
+        /* Form Fields */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Submit Button */
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            background: #1abc9c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #16a085;
+        }
+
+        /* Back Link */
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #3498db;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #1abc9c;
+        }
+    </style>
+
+    <div class="form-container">
+        <h2>Створити нового адміністратора</h2>
+
+        <form asp-action="CreateAdmin" method="post">
+
+            <label>Ім'я</label>
+            <input type="text" name="Name" value="@Model?.Name" required />
+
+            <label>Email</label>
+            <input type="text" name="Email" value="@Model?.Email" required />
+
+            <label>Пароль</label>
+            <input type="password" name="Password" value="@Model?.Password" required />
+
+            <label>Телефон</label>
+            <input type="text" name="Phone" value="@Model?.Phone" required />
+
+            <button type="submit">Створити</button>
+        </form>
+
+        <a href="@Url.Action("Admins")" class="back-link">⬅ Повернутися назад</a>
+    </div>
+
+CreateOrder.cshtml
+@model charolis.Models.Order
+@{
+    ViewBag.Title = "Створення замовлення";
+    var regUsers = ViewBag.RegUsers as IEnumerable<charolis.Models.RegUser>;
+    var products = ViewBag.Products as IEnumerable<charolis.Models.Product>;
+}
+
+<h2>Створення замовлення</h2>
+
+<form asp-action="CreateOrder" method="post">
+    <div>
+        <label>Користувач:</label>
+        <select name="regUserId">
+            @foreach(var user in regUsers)
+            {
+                <option value="@user.Id">@user.Name</option>
+            }
+        </select>
+    </div>
+    <br />
+    <div>
+        <label>Продукти:</label>
+        <select name="productIds" multiple="multiple" size="5">
+            @foreach(var product in products)
+            {
+                <option value="@product.Id">@product.Name (@product.Price)</option>
+            }
+        </select>
+    </div>
+    <br />
+    <button type="submit">Створити замовлення</button>
+</form>
+
+CreateProduct.cshtml
+@model charolis.Models.Product
+
+<style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            color: #2c3e50;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Availability Toggle */
+        .availability-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .availability-container label {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 25px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #1abc9c;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Buttons */
+        button {
+            background: #1abc9c;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #16a085;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            color: #1abc9c;
+        }
+    </style>
+
+    <div class="form-container">
+        <h2>Додати продукт</h2>
+
+        <form asp-action="CreateProduct" method="post">
+            <label>Ім'я</label>
+            <input type="text" name="Name" value="@Model?.Name" required />
+
+            <label>Опис</label>
+            <input type="text" name="Desc" value="@Model?.Desc" required />
+
+            <label>Ціна (₴)</label>
+            <input type="number" name="Price" value="@Model?.Price" required />
+
+            <!-- Availability Toggle -->
+            <div class="availability-container">
+                <label>Наявність</label>
+                <label class="switch">
+                    <input type="checkbox" name="Awailible" value="true">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <button type="submit">Створити</button>
+        </form>
+
+        <a href="@Url.Action("Products")" class="back-link">⬅ Повернутись до списку</a>
+    </div>
+
+CreateRegUser.cshtml
+@model charolis.Models.RegUser
+
+ <style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #34495e;
+            text-align: center;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: left;
+        }
+
+        /* Form Fields */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Submit Button */
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            background: #1abc9c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #16a085;
+        }
+
+        /* Back Link */
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #3498db;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #1abc9c;
+        }
+    </style>
+
+    <div class="form-container">
+        <h2>Зареєструвати користувача</h2>
+
+        <form asp-action="CreateRegUser" method="post">
+            <label>Ім'я</label>
+            <input type="text" name="Name" value="@Model?.Name" required />
+
+            <label>Email</label>
+            <input type="text" name="Email" value="@Model?.Email" required />
+
+            <label>Пароль</label>
+            <input type="password" name="Password" value="@Model?.Password" required />
+
+            <label>Телефон</label>
+            <input type="text" name="Phone" value="@Model?.Phone" required />
+            
+            <label>Адреса</label>
+            <input type="text" name="Address" value="@Model?.Address" required />
+
+            <button type="submit">Створити</button>
+        </form>
+
+        <a href="@Url.Action("RegUsers")" class="back-link">⬅ Повернутись до списку</a>
+    </div>
+
+DeleteAdmin.cshtml
+
+EditAdmin.cshtml
+@model charolis.Models.Admin
+
+<style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+        }
+
+        /* Form Fields */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Submit Button */
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        /* Back Link */
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #3498db;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #1abc9c;
+        }
+    </style>
+
+    <div class="form-container">
+        <h2>Редагування адміністратора</h2>
+
+        <form asp-action="EditAdmin" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <label>Ім'я</label>
+            <input type="text" name="Name" value="@Model?.Name" required />
+
+            <label>Email</label>
+            <input type="text" name="Email" value="@Model?.Email" required />
+
+            <label>Пароль</label>
+            <input type="password" name="Password" value="@Model?.Password" required />
+
+            <label>Телефон</label>
+            <input type="text" name="Phone" value="@Model?.Phone" required />
+
+            <button type="submit">Зберегти зміни</button>
+        </form>
+
+        <a href="@Url.Action("Admins")" class="back-link">⬅ Назад</a>
+    </div>
+EditOrder.cshtml
+@model charolis.Models.Order
+@{
+    ViewBag.Title = "Редагування замовлення";
+    var regUsers = ViewBag.RegUsers as IEnumerable<charolis.Models.RegUser>;
+    var products = ViewBag.Products as IEnumerable<charolis.Models.Product>;
+}
+
+<h2>Редагування замовлення</h2>
+
+<form asp-action="EditOrder" method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div>
+        <label>Користувач:</label>
+        <select name="regUserId">
+            @foreach(var user in regUsers)
+            {
+                <option value="@user.Id" @(user.Id == Model.Customer?.Id ? "selected" : "")>@user.Name</option>
+            }
+        </select>
+    </div>
+    <br />
+    <div>
+        <label>Продукти:</label>
+        <select name="productIds" multiple="multiple" size="5">
+            @foreach(var product in products)
+            {
+                <option value="@product.Id" @(Model.Products.Any(p => p.Id == product.Id) ? "selected" : "")>
+                    @product.Name (@product.Price)
+                </option>
+            }
+        </select>
+    </div>
+    <br />
+    <button type="submit">Оновити замовлення</button>
+</form>
+
+EditRegUser.cshtml
+@model charolis.Models.RegUser
+
+ <style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #34495e;
+            text-align: center;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: left;
+        }
+
+        /* Form Fields */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Submit Button */
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            background: #1abc9c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #16a085;
+        }
+
+        /* Back Link */
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #3498db;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #1abc9c;
+        }
+    </style>
+
+    <div class="form-container">
+        <h2>Редагувати зареєстрованого користувача</h2>
+
+        <form asp-action="EditRegUser" method="post">
+            <label>Ім'я</label>
+            <input type="text" name="Name" value="@Model?.Name" required />
+
+            <label>Email</label>
+            <input type="text" name="Email" value="@Model?.Email" required />
+
+            <label>Пароль</label>
+            <input type="password" name="Password" value="@Model?.Password" required />
+
+            <label>Телефон</label>
+            <input type="text" name="Phone" value="@Model?.Phone" required />
+            
+            <label>Адреса</label>
+            <input type="text" name="Address" value="@Model?.Address" required />
+
+            <button type="submit">Створити</button>
+        </form>
+
+        <a href="@Url.Action("RegUsers")" class="back-link">⬅ Повернутись до списку</a>
+    </div>
+
+Main.cshtml
+<style>
+        /* General Page Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background: #2c3e50;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        ul li {
+            border-bottom: 1px solid #34495e;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        ul li a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: #ecf0f1;
+            font-weight: bold;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        ul li a:hover {
+            background: #1abc9c;
+            color: #ffffff;
+        }
+
+    </style>
+    <div class="container">
+        <h2>Charolis</h2>
+        <ul>
+            <li><a href="@Url.Action("Admins")">Admins</a></li>
+            <li><a href="@Url.Action("RegUsers")">RegUsers</a></li>
+            <li><a href="@Url.Action("Products")">Products</a></li>
+            <li><a href="@Url.Action("Orders")">Orders</a></li>
+        </ul>
+    </div>
+
+Orders.cshtml
+@model IEnumerable<charolis.Models.Order>
+@{
+    ViewBag.Title = "Список замовлень";
+}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: #e9ecef;
+        margin: 0;
+        padding: 20px;
+        color: #343a40;
+    }
+    h2 {
+        font-size: 2em;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #495057;
+    }
+    .table-container {
+        overflow-x: auto;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px auto;
+        background: #fff;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    }
+    thead {
+        background: linear-gradient(135deg, #6c757d, #343a40);
+        color: #fff;
+    }
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #dee2e6;
+    }
+    a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    .btn {
+        display: inline-block;
+        margin: 20px auto;
+        background: linear-gradient(135deg, #28a745, #218838);
+        color: #fff;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .btn:hover {
+        background: linear-gradient(135deg, #218838, #1e7e34);
+    }
+</style>
+
+<div class="table-container">
+    <h2>Список замовлень</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Користувач</th>
+                <th>Продукти</th>
+                <th>Загальна сума</th>
+                <th>Кількість товарів</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach(var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Customer?.Name</td>
+                <td>
+                    @foreach(var product in order.Products)
+                    {
+                        @product.Name <br />
+                    }
+                </td>
+                <td>@order.TotalPrice</td>
+                <td>@order.ProductCount</td>
+                <td>
+                    <a href="@Url.Action("EditOrder", new { id = order.Id })">Редагувати</a> |
+                    <a href="@Url.Action("DeleteOrder", new { id = order.Id })">Видалити</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<div style="text-align: center;">
+    <a href="@Url.Action("CreateOrder")" class="btn">Створити нове замовлення</a>
+</div>
+
+Products.cshtml
+@model IEnumerable<charolis.Models.Product>
+
+<style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            color: #2c3e50;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 90%;
+            max-width: 1000px;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #2c3e50;
+            color: #ecf0f1;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+            transition: background 0.3s;
+        }
+
+        /* Action Links */
+        a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #1abc9c;
+        }
+
+        a[style*="color: red;"] {
+            color: red;
+        }
+
+        a[style*="color: red;"]:hover {
+            color: darkred;
+        }
+
+        /* Buttons */
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 15px;
+            background: #1abc9c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #16a085;
+        }
+    </style>
+    <h2>Список продуктів</h2>
+
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Ім'я</th>
+            <th>Опис</th>
+            <th>Ціна</th>
+            <th>Наявність</th>
+            <th>Дії</th>
+        </tr>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@product.Desc</td>
+                <td>@product.Price ₴</td>
+                <td>@(product.Awailible ? "✅ Є в наявності" : "❌ Немає")</td>
+                <td>
+                    <a href="@Url.Action("EditProduct", new { id = product.Id })">Редагувати</a> |
+                    <a href="@Url.Action("DeleteProduct", new { id = product.Id })" style="color: red;">Видалити</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <a href="@Url.Action("CreateProduct")" class="button">Додати продукт</a>
+    <a href="@Url.Action("Main")" class="button">⬅ Назад</a>
+
+RegUsers.cshtml
+@model IEnumerable<charolis.Models.RegUser>
+
+<style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            color: #2c3e50;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 90%;
+            max-width: 1000px;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #2c3e50;
+            color: #ecf0f1;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+            transition: background 0.3s;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #1abc9c;
+        }
+
+        /* Buttons */
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 15px;
+            background: #1abc9c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #16a085;
+        }
+    </style>
+
+    <h2>Список зареєстрованих користувачів</h2>
+
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Ім'я</th>
+            <th>Email</th>
+            <th>Телефон</th>
+            <th>Адреса</th>
+            <th>Дії</th>
+        </tr>
+        @foreach (var reguser in Model)
+        {
+            <tr>
+                <td>@reguser.Id</td>
+                <td>@reguser.Name</td>
+                <td>@reguser.Email</td>
+                <td>@reguser.Phone</td>
+                <td>@reguser.Address</td>
+                <td>
+                    <a href="@Url.Action("EditRegUser", new { id = reguser.Id })">Редагувати</a> |
+                    <a href="@Url.Action("DeleteRegUser", new { id = reguser.Id })" style="color: red;">Видалити</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <a href="@Url.Action("CreateRegUser")" class="button">Додати користувача</a>
+    <a href="@Url.Action("Main")" class="button">⬅ Назад</a>
+
+Program.cs
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using charolis.Models;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddSingleton<RegUserRepository>();
+builder.Services.AddSingleton<AdminRepository>();
+builder.Services.AddSingleton<GuessRepository>();
+builder.Services.AddSingleton<OrdersRepository>();
+builder.Services.AddSingleton<ProductRepository>();
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+// Головна сторінка тепер AdminController.Menu
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=UI}/{action=Main}/{id?}");
+
+app.Run();

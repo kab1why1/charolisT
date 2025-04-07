@@ -1,108 +1,32 @@
 @model charolis.Models.RegUser
+@{
+    ViewBag.Title = "Створити користувача";
+}
 
- <style>
-        /* General Page Styling */
-        body {
-            font-family: Arial, sans-serif;
-            background: #ecf0f1;
-            color: #2c3e50;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
+<h2>@ViewBag.Title</h2>
 
-        h2 {
-            margin-bottom: 20px;
-            color: #34495e;
-            text-align: center;
-        }
-
-        /* Form Container */
-        .form-container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            width: 350px;
-            text-align: left;
-        }
-
-        /* Form Fields */
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        input {
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #bdc3c7;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        /* Submit Button */
-        button {
-            margin-top: 20px;
-            padding: 12px;
-            background: #1abc9c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        button:hover {
-            background: #16a085;
-        }
-
-        /* Back Link */
-        .back-link {
-            display: inline-block;
-            margin-top: 15px;
-            text-decoration: none;
-            font-weight: bold;
-            color: #3498db;
-            transition: color 0.3s;
-        }
-
-        .back-link:hover {
-            color: #1abc9c;
-        }
-    </style>
-
-    <div class="form-container">
-        <h2>Зареєструвати користувача</h2>
-
-        <form asp-action="CreateRegUser" method="post">
-            <label>Ім'я</label>
-            <input type="text" name="Name" value="@Model?.Name" required />
-
-            <label>Email</label>
-            <input type="text" name="Email" value="@Model?.Email" required />
-
-            <label>Пароль</label>
-            <input type="password" name="Password" value="@Model?.Password" required />
-
-            <label>Телефон</label>
-            <input type="text" name="Phone" value="@Model?.Phone" required />
-            
-            <label>Адреса</label>
-            <input type="text" name="Address" value="@Model?.Address" required />
-
-            <button type="submit">Створити</button>
-        </form>
-
-        <a href="@Url.Action("RegUsers")" class="back-link">⬅ Повернутись до списку</a>
+<form asp-action="CreateRegUser" method="post">
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" required />
     </div>
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" type="email" required />
+    </div>
+    <div>
+        <label>Пароль</label>
+        <input name="password" type="password" required />
+    </div>
+    <div>
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" required />
+    </div>
+    <div>
+        <label asp-for="Address"></label>
+        <input asp-for="Address" required />
+    </div>
+    <button type="submit">Створити</button>
+</form>
+
+<a asp-action="RegUsers">⬅ Повернутися назад</a>

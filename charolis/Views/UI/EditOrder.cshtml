@@ -1,35 +1,45 @@
 @model charolis.Models.Order
 @{
-    ViewBag.Title = "Редагування замовлення";
-    var regUsers = ViewBag.RegUsers as IEnumerable<charolis.Models.RegUser>;
-    var products = ViewBag.Products as IEnumerable<charolis.Models.Product>;
+    ViewBag.Title = "Редагувати замовлення";
+    var regUsers = ViewBag.RegUsers as IEnumerable<charolis.Models.RegUser> ?? Enumerable.Empty<charolis.Models.RegUser>();
+    var products = ViewBag.Products as IEnumerable<charolis.Models.Product> ?? Enumerable.Empty<charolis.Models.Product>();
 }
 
-<h2>Редагування замовлення</h2>
+<h2>@ViewBag.Title</h2>
 
 <form asp-action="EditOrder" method="post">
     <input type="hidden" name="Id" value="@Model.Id" />
     <div>
         <label>Користувач:</label>
         <select name="regUserId">
-            @foreach(var user in regUsers)
+            @foreach (var user in regUsers)
             {
-                <option value="@user.Id" @(user.Id == Model.Customer?.Id ? "selected" : "")>@user.Name</option>
+                if (user.Id == Model.Customer?.Id)
+                {
+                    <option value="@user.Id" selected="selected">@user.Name</option>
+                }
+                else
+                {
+                    <option value="@user.Id">@user.Name</option>
+                }
             }
         </select>
     </div>
-    <br />
     <div>
         <label>Продукти:</label>
-        <select name="productIds" multiple="multiple" size="5">
-            @foreach(var product in products)
+        <select name="productIds" multiple size="5">
+            @foreach (var product in products)
             {
-                <option value="@product.Id" @(Model.Products.Any(p => p.Id == product.Id) ? "selected" : "")>
-                    @product.Name (@product.Price)
-                </option>
+                if (Model.Products.Any(p => p.Id == product.Id))
+                {
+                    <option value="@product.Id" selected="selected">@product.Name (@product.Price)</option>
+                }
+                else
+                {
+                    <option value="@product.Id">@product.Name (@product.Price)</option>
+                }
             }
         </select>
     </div>
-    <br />
     <button type="submit">Оновити замовлення</button>
 </form>
