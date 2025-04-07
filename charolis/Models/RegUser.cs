@@ -14,7 +14,7 @@ public class RegUser : User
 
     public override void ShowInfo()
     {
-        Console.Write($"ID - {Id}, Registered User {Name}. Email: {Email}, Password: {Password}, Phone: {Phone}, Address: {Address}");
+        Console.Write($"ID - {Id}, Registered User {Name}. Email: {Email}, Password: {PasswordHash}, Phone: {Phone}, Address: {Address}");
     }
 
 }

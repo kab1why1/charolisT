@@ -227,3 +227,6 @@ D:\personal\c#\charolis3\obj\Debug\net9.0\scopedcss\Views\UI\Main.cshtml.rz.scp.
 D:\personal\c#\charolis3\obj\Debug\net9.0\scopedcss\projectbundle\charolis.bundle.scp.css
 D:\personal\c#\charolis3\obj\Debug\net9.0\compressed\l0k14pev7n-9j1a6g0euz.gz
 D:\personal\c#\charolis3\obj\Debug\net9.0\compressed\o09v58e0y1-9j1a6g0euz.gz
+D:\personal\c#\charolis3\obj\Debug\net9.0\charolis.csproj.AssemblyReference.cache
+D:\personal\c#\charolis3\bin\Debug\net9.0\BCrypt.Net-Next.dll
+D:\personal\c#\charolis3\obj\Debug\net9.0\charolis.csproj.Up2Date

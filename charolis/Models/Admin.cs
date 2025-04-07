@@ -1,22 +1,22 @@
 using System;
 
-namespace charolis.Models;
-
-public class Admin : User
+namespace charolis.Models
 {
-    public string Role { get; set; } = "admin";
+    public class Admin : User
+    {
+        public string Role { get; set; } = "admin";
 
-    public Admin() : base() { }
+        public Admin() : base() { }
 
-    public Admin(string name, string email, string password, string phone, string address) 
-        : base(name, email, password, phone, address)
-    { }
+        public Admin(string name, string email, string passwordHash, string phone, string address)
+            : base(name, email, passwordHash, phone, address)
+        { }
 
-    public override void ShowInfo() {
-        Console.Write($"ID - {Id} Admin {Name}, Email: {Email}, Password: {Password}, Phone: {Phone}, Address: {Address}");
+        public override void ShowInfo()
+        {
+            Console.Write($"ID - {Id} Admin {Name}, Email: {Email}, PasswordHash: {PasswordHash}, Phone: {Phone}, Address: {Address}");
+        }
     }
 
-    
+    public class AdminRepository : Repository<Admin> { }
 }
-
-public class AdminRepository : Repository<Admin> { }
