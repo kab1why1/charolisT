@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "w+yYNlemer8DdPxRssuKF2MCmBBafcHSEMY9+kMTPOQ=",
+  "Hash": "EqGhm+rhAmwJwTl8ftflIuf2JP1CkvwC31qIECfEb80=",
   "Source": "charolis",
   "BasePath": "_content/charolis",
   "Mode": "Default",
@@ -9,10 +9,10 @@
   "DiscoveryPatterns": [],
   "Assets": [
     {
-      "Identity": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\compressed\\l0k14pev7n-9j1a6g0euz.gz",
+      "Identity": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\compressed\\l0k14pev7n-9j1a6g0euz.gz",
       "SourceId": "charolis",
       "SourceType": "Computed",
-      "ContentRoot": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\compressed\\",
+      "ContentRoot": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/charolis",
       "RelativePath": "charolis#[.{fingerprint=9j1a6g0euz}]?.styles.css.gz",
       "AssetKind": "All",
@@ -20,20 +20,20 @@
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\bundle\\charolis.styles.css",
+      "RelatedAsset": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\bundle\\charolis.styles.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
       "Fingerprint": "wybc2plx1x",
       "Integrity": "aGISyLJzfj+oBTs6TzwbxHAJSyoxUDrL8RaYmu+yjIE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\bundle\\charolis.styles.css"
+      "OriginalItemSpec": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\bundle\\charolis.styles.css"
     },
     {
-      "Identity": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\compressed\\o09v58e0y1-9j1a6g0euz.gz",
+      "Identity": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\compressed\\o09v58e0y1-9j1a6g0euz.gz",
       "SourceId": "charolis",
       "SourceType": "Computed",
-      "ContentRoot": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\compressed\\",
+      "ContentRoot": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/charolis",
       "RelativePath": "charolis#[.{fingerprint=9j1a6g0euz}]!.bundle.scp.css.gz",
       "AssetKind": "All",
@@ -41,20 +41,20 @@
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css",
+      "RelatedAsset": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
       "Fingerprint": "wybc2plx1x",
       "Integrity": "aGISyLJzfj+oBTs6TzwbxHAJSyoxUDrL8RaYmu+yjIE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css"
+      "OriginalItemSpec": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css"
     },
     {
-      "Identity": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\bundle\\charolis.styles.css",
+      "Identity": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\bundle\\charolis.styles.css",
       "SourceId": "charolis",
       "SourceType": "Computed",
-      "ContentRoot": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\bundle\\",
+      "ContentRoot": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\bundle\\",
       "BasePath": "_content/charolis",
       "RelativePath": "charolis#[.{fingerprint}]?.styles.css",
       "AssetKind": "All",
@@ -69,13 +69,13 @@
       "Integrity": "u1Ozjqvos6ewlsPAH2OaNItIIz/0BFQcoVMlD6QB2is=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\bundle\\charolis.styles.css"
+      "OriginalItemSpec": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\bundle\\charolis.styles.css"
     },
     {
-      "Identity": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css",
+      "Identity": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css",
       "SourceId": "charolis",
       "SourceType": "Computed",
-      "ContentRoot": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/charolis",
       "RelativePath": "charolis#[.{fingerprint}]!.bundle.scp.css",
       "AssetKind": "All",
@@ -90,13 +90,13 @@
       "Integrity": "u1Ozjqvos6ewlsPAH2OaNItIIz/0BFQcoVMlD6QB2is=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css"
+      "OriginalItemSpec": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css"
     }
   ],
   "Endpoints": [
     {
       "Route": "charolis.9j1a6g0euz.bundle.scp.css",
-      "AssetFile": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\compressed\\o09v58e0y1-9j1a6g0euz.gz",
+      "AssetFile": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\compressed\\o09v58e0y1-9j1a6g0euz.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -159,7 +159,7 @@
     },
     {
       "Route": "charolis.9j1a6g0euz.bundle.scp.css",
-      "AssetFile": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css",
+      "AssetFile": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -204,7 +204,7 @@
     },
     {
       "Route": "charolis.9j1a6g0euz.bundle.scp.css.gz",
-      "AssetFile": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\compressed\\o09v58e0y1-9j1a6g0euz.gz",
+      "AssetFile": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\compressed\\o09v58e0y1-9j1a6g0euz.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -257,7 +257,7 @@
     },
     {
       "Route": "charolis.9j1a6g0euz.styles.css",
-      "AssetFile": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\compressed\\l0k14pev7n-9j1a6g0euz.gz",
+      "AssetFile": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\compressed\\l0k14pev7n-9j1a6g0euz.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -320,7 +320,7 @@
     },
     {
       "Route": "charolis.9j1a6g0euz.styles.css",
-      "AssetFile": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\bundle\\charolis.styles.css",
+      "AssetFile": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\bundle\\charolis.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -365,7 +365,7 @@
     },
     {
       "Route": "charolis.9j1a6g0euz.styles.css.gz",
-      "AssetFile": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\compressed\\l0k14pev7n-9j1a6g0euz.gz",
+      "AssetFile": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\compressed\\l0k14pev7n-9j1a6g0euz.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -418,7 +418,7 @@
     },
     {
       "Route": "charolis.bundle.scp.css",
-      "AssetFile": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\compressed\\o09v58e0y1-9j1a6g0euz.gz",
+      "AssetFile": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\compressed\\o09v58e0y1-9j1a6g0euz.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -473,7 +473,7 @@
     },
     {
       "Route": "charolis.bundle.scp.css",
-      "AssetFile": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css",
+      "AssetFile": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\charolis.bundle.scp.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -510,7 +510,7 @@
     },
     {
       "Route": "charolis.bundle.scp.css.gz",
-      "AssetFile": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\compressed\\o09v58e0y1-9j1a6g0euz.gz",
+      "AssetFile": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\compressed\\o09v58e0y1-9j1a6g0euz.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -555,7 +555,7 @@
     },
     {
       "Route": "charolis.styles.css",
-      "AssetFile": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\compressed\\l0k14pev7n-9j1a6g0euz.gz",
+      "AssetFile": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\compressed\\l0k14pev7n-9j1a6g0euz.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -610,7 +610,7 @@
     },
     {
       "Route": "charolis.styles.css",
-      "AssetFile": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\scopedcss\\bundle\\charolis.styles.css",
+      "AssetFile": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\scopedcss\\bundle\\charolis.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -647,7 +647,7 @@
     },
     {
       "Route": "charolis.styles.css.gz",
-      "AssetFile": "D:\\personal\\c#\\charolis3\\obj\\Debug\\net9.0\\compressed\\l0k14pev7n-9j1a6g0euz.gz",
+      "AssetFile": "D:\\personal\\c#\\charolisT\\charolis\\obj\\Debug\\net9.0\\compressed\\l0k14pev7n-9j1a6g0euz.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
