@@ -4,112 +4,128 @@
 
 @{
     var isAuth = User?.Identity?.IsAuthenticated ?? false;
-    // Отримуємо роль з claims, якщо користувач автентифікований
     var roleClaim = User?.FindFirst(ClaimTypes.Role);
     var role = roleClaim != null ? roleClaim.Value : "";
 }
 
-<style>
-    /* Загальні стилі сторінки */
-    body {
-        font-family: Arial, sans-serif;
-        background: #ecf0f1;
-        color: #2c3e50;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    .container {
-        background: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        width: 300px;
-        text-align: center;
-    }
-
-    h2 {
-        margin-bottom: 20px;
-        color: #34495e;
-    }
-
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        background: #2c3e50;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    ul li {
-        border-bottom: 1px solid #34495e;
-    }
-
-    ul li:last-child {
-        border-bottom: none;
-    }
-
-    ul li a {
-        display: block;
-        padding: 15px;
-        text-decoration: none;
-        color: #ecf0f1;
-        font-weight: bold;
-        transition: background 0.3s, color 0.3s;
-    }
-
-    ul li a:hover {
-        background: #1abc9c;
-        color: #ffffff;
-    }
-
-    .auth-buttons {
-        margin-top: 20px;
-    }
-
-    .auth-buttons a {
-        display: inline-block;
-        padding: 10px 15px;
-        margin: 5px;
-        background: #1abc9c;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        font-weight: bold;
-        transition: background 0.3s;
-    }
-
-    .auth-buttons a:hover {
-        background: #16a085;
-    }
-</style>
-
-<div class="container">
-    <h2>Charolis</h2>
-
-    @if (!isAuth)
-    {
-        <div class="auth-buttons">
-            <a asp-controller="Account" asp-action="Login">Увійти</a>
-            <a asp-controller="Account" asp-action="Register">Зареєструватися</a>
-        </div>
-    }
-    else
-    {
-        <ul>
-            @if (role == "admin")
-            {
-                <li><a asp-controller="UI" asp-action="Admins">Адміни</a></li>
-                <li><a asp-controller="UI" asp-action="RegUsers">Користувачі</a></li>
-            }
-            <li><a asp-controller="UI" asp-action="Products">Продукти</a></li>
-            <li><a asp-controller="UI" asp-action="Orders">Замовлення</a></li>
-        </ul>
-    }
-</div>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <title>Main - Charolis</title>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        /* Загальні стилі сторінки */
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background: #2c3e50;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        ul li {
+            border-bottom: 1px solid #34495e;
+        }
+        ul li:last-child {
+            border-bottom: none;
+        }
+        ul li a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: #ecf0f1;
+            font-weight: bold;
+            transition: background 0.3s, color 0.3s;
+        }
+        ul li a:hover {
+            background: #1abc9c;
+            color: #ffffff;
+        }
+        .auth-buttons {
+            margin-top: 20px;
+        }
+        .auth-buttons a,
+        .admin-switch,
+        .logout-button {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            background: #1abc9c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .auth-buttons a:hover,
+        .admin-switch:hover,
+        .logout-button:hover {
+            background: #16a085;
+        }
+        form {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Charolis</h2>
+        @if (!isAuth)
+        {
+            <div class="auth-buttons">
+                <a asp-controller="Account" asp-action="Login">Увійти</a>
+                <a asp-controller="Account" asp-action="Register">Зареєструватися</a>
+            </div>
+        }
+        else
+        {
+            <ul>
+                @if (role == "admin")
+                {
+                    <li><a asp-controller="UI" asp-action="Admins">Адміни</a></li>
+                    <li><a asp-controller="UI" asp-action="RegUsers">Користувачі</a></li>
+                }
+                <li><a asp-controller="UI" asp-action="Products">Продукти</a></li>
+                <li><a asp-controller="UI" asp-action="Orders">Замовлення</a></li>
+            </ul>
+            <div style="margin-top:20px;">
+                @* Якщо користувач має роль "Registered User", показуємо посилання для перемикання в режим адміністратора *@
+                @if (role == "Registered User")
+                {
+                    <a asp-controller="Account" asp-action="SwitchToAdmin" class="admin-switch">Перейти в режим адміністратора</a>
+                }
+                <form asp-controller="Account" asp-action="Logout" method="post">
+                    <button type="submit" class="logout-button">Вийти</button>
+                </form>
+            </div>
+        }
+    </div>
+</body>
+</html>

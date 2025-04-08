@@ -1,22 +1,20 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using charolis.Models;
 using charolis.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1) Регіструємо репозиторії
+// 1) Реєстрація репозиторіїв
 builder.Services.AddSingleton<RegUserRepository>();
 builder.Services.AddSingleton<AdminRepository>();
 builder.Services.AddSingleton<GuessRepository>();
 builder.Services.AddSingleton<OrdersRepository>();
 builder.Services.AddSingleton<ProductRepository>();
 
-// 2) Сервіс аутентифікації
+// 2) Реєстрація сервісу аутентифікації
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-// 3) MVC
+// 3) Додавання підтримки MVC із контролерами та представленнями
 builder.Services.AddControllersWithViews();
 
 // 4) Налаштування cookie‑аутентифікації
@@ -27,7 +25,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/Account/AccessDenied";
     });
 
-// 5) Рольова авторизація (за потреби можна звертатися просто через [Authorize(Roles="…")])
+// 5) Налаштування авторизації (допоміжна політика для адміністратора, якщо потрібна)
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
@@ -35,7 +33,7 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
-// 6) Middleware pipeline
+// 6) Налаштування middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -45,13 +43,26 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 app.UseRouting();
 
-// ! ВАЖЛИВО: аутентифікацію підключаємо перед авторизацією
+// Важливо: спочатку аутентифікація, потім авторизація
 app.UseAuthentication();
 app.UseAuthorization();
 
-// 7) Роутінг
+// 7) Налаштування маршрутизації
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=UI}/{action=Main}/{id?}");
+
+// 8) Початкове наповнення даних: створення адміністратора, якщо його ще нема
+using (var scope = app.Services.CreateScope())
+{
+    var adminRepo = scope.ServiceProvider.GetRequiredService<AdminRepository>();
+    if (!adminRepo.GetAll().Any())
+    {
+        // Створюємо адміністратора з базовими даними.
+        // Зверніть увагу: для виробничого середовища потрібно замінити ці дані на більш безпечні.
+        var admin = new Admin("Admin", "admin@example.com", PasswordHelper.Hash("adminpassword"), "123456789", "Адреса");
+        adminRepo.Add(admin);
+    }
+}
 
 app.Run();
