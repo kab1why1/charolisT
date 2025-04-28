@@ -1,0 +1,20 @@
+[
+  {
+    "Id": 1,
+    "Username": "admin",
+    "Password": "$2a$11$BAbPrm7f2ImP7MGBwXS1w..Y/RxX4d8U0eNj1JrmOzO3SgBExXxBa",
+    "Role": "Admin",
+    "Email": "admin@example.com",
+    "Phone": "1234567890",
+    "Address": "\u0410\u0434\u043C\u0456\u043D\u0441\u044C\u043A\u0430 \u0430\u0434\u0440\u0435\u0441\u0430"
+  },
+  {
+    "Id": 2,
+    "Username": "martin",
+    "Password": "$2a$11$Ox4Q8Q3yLgvgm6YZCSMPSOUd9QB6q5/dShk7cZBNsKKH0EhO.Sm/S",
+    "Role": "User",
+    "Email": "martin@mail.com",
+    "Phone": "987-654",
+    "Address": "martin adress"
+  }
+]

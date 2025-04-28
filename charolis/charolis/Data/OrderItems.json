@@ -1,0 +1,41 @@
+[
+  {
+    "Id": 1,
+    "OrderId": 1,
+    "Order": null,
+    "ProductId": 1,
+    "Product": {
+      "Id": 1,
+      "Name": "Coin",
+      "Description": "its always heads",
+      "Price": 10.99,
+      "IsActive": true
+    },
+    "Quantity": 1,
+    "PriceAtPurchase": 10.99
+  },
+  {
+    "Id": 2,
+    "OrderId": 1,
+    "Order": null,
+    "ProductId": 2,
+    "Product": {
+      "Id": 2,
+      "Name": "Magic Wand",
+      "Description": "Awada kedawra ",
+      "Price": 125.99,
+      "IsActive": true
+    },
+    "Quantity": 2,
+    "PriceAtPurchase": 125.99
+  },
+  {
+    "Id": 3,
+    "OrderId": 2,
+    "Order": null,
+    "ProductId": 2,
+    "Product": null,
+    "Quantity": 1,
+    "PriceAtPurchase": 125.99
+  }
+]

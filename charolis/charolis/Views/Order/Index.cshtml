@@ -1,0 +1,52 @@
+﻿@model IEnumerable<charolis.Entity.Order>
+
+@{
+    ViewData["Title"] = "Список замовлень";
+}
+
+<h2>Список замовлень</h2>
+
+<a asp-action="Create" class="btn btn-success mb-3">Створити замовлення</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Номер</th>
+        <th>Користувач</th>
+        <th>Дата створення</th>
+        <th>Товари</th>
+        <th>Сума</th>
+        <th>Дії</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var order in Model)
+    {
+        <tr>
+            <td>@order.Id</td>
+            <td>@order.User?.Username</td>
+            <td>@order.CreatedAt.ToLocalTime().ToString("g")</td>
+            <td>
+                <ul>
+                    @foreach (var item in order.Items)
+                    {
+                        <li>@($"{item.Product?.Name} (x{item.Quantity})")</li>
+                    }
+                </ul>
+            </td>
+            <td>
+                @{
+                    var total = order.Items.Sum(i => i.Quantity * i.PriceAtPurchase);
+                }
+                @total.ToString("C")
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@order.Id" class="btn btn-warning btn-sm">Редагувати</a>
+                <a asp-action="Delete" asp-route-id="@order.Id" class="btn btn-danger btn-sm">Видалити</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">На головну</a>

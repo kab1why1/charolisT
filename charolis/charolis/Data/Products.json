@@ -1,0 +1,16 @@
+[
+  {
+    "Id": 1,
+    "Name": "Coin",
+    "Description": "its always heads",
+    "Price": 10.99,
+    "IsActive": true
+  },
+  {
+    "Id": 2,
+    "Name": "Magic Wand",
+    "Description": "Awada kedawra ",
+    "Price": 125.99,
+    "IsActive": true
+  }
+]

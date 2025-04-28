@@ -1,0 +1,35 @@
+﻿@model charolis.Entity.Product
+
+@{
+    ViewData["Title"] = "Підтвердження видалення товару";
+}
+
+<h2>Підтвердження видалення товару</h2>
+
+<div class="alert alert-warning">
+    Ви дійсно хочете видалити цей товар?
+</div>
+
+<table class="table">
+    <tr>
+        <th>Назва</th>
+        <td>@Model.Name</td>
+    </tr>
+    <tr>
+        <th>Опис</th>
+        <td>@Model.Description</td>
+    </tr>
+    <tr>
+        <th>Ціна</th>
+        <td>@Model.Price.ToString("C")</td>
+    </tr>
+    <tr>
+        <th>Активний</th>
+        <td>@(Model.IsActive ? "Так" : "Ні")</td>
+    </tr>
+</table>
+
+<form method="post">
+    <input type="submit" value="Видалити" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
+</form>

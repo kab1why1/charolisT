@@ -1,0 +1,14 @@
+﻿@model charolis.Entity.Order
+
+@{
+    ViewData["Title"] = "Видалити замовлення";
+}
+
+<h2>Видалити замовлення #@Model.Id</h2>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <p>Ви впевнені, що хочете видалити це замовлення?</p>
+    <button type="submit" class="btn btn-danger">Видалити</button>
+    <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
+</form>

@@ -1,0 +1,81 @@
+[
+  {
+    "Id": 1,
+    "UserId": 2,
+    "User": {
+      "Id": 2,
+      "Username": "martin",
+      "Password": "$2a$11$Ox4Q8Q3yLgvgm6YZCSMPSOUd9QB6q5/dShk7cZBNsKKH0EhO.Sm/S",
+      "Role": "User",
+      "Email": "martin@mail.com",
+      "Phone": "987-654",
+      "Address": "martin adress"
+    },
+    "CreatedAt": "2025-04-27T13:30:30.184678Z",
+    "Total": 0,
+    "Items": [
+      {
+        "Id": 1,
+        "OrderId": 1,
+        "Order": null,
+        "ProductId": 1,
+        "Product": {
+          "Id": 1,
+          "Name": "Coin",
+          "Description": "its always heads",
+          "Price": 10.99,
+          "IsActive": true
+        },
+        "Quantity": 1,
+        "PriceAtPurchase": 10.99
+      },
+      {
+        "Id": 2,
+        "OrderId": 1,
+        "Order": null,
+        "ProductId": 2,
+        "Product": {
+          "Id": 2,
+          "Name": "Magic Wand",
+          "Description": "Awada kedawra ",
+          "Price": 125.99,
+          "IsActive": true
+        },
+        "Quantity": 2,
+        "PriceAtPurchase": 125.99
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "UserId": 2,
+    "User": {
+      "Id": 2,
+      "Username": "martin",
+      "Password": "$2a$11$Ox4Q8Q3yLgvgm6YZCSMPSOUd9QB6q5/dShk7cZBNsKKH0EhO.Sm/S",
+      "Role": "User",
+      "Email": "martin@mail.com",
+      "Phone": "987-654",
+      "Address": "martin adress"
+    },
+    "CreatedAt": "2025-04-28T09:50:36.9733811Z",
+    "Total": 125.99,
+    "Items": [
+      {
+        "Id": 3,
+        "OrderId": 2,
+        "Order": null,
+        "ProductId": 2,
+        "Product": {
+          "Id": 2,
+          "Name": "Magic Wand",
+          "Description": "Awada kedawra ",
+          "Price": 125.99,
+          "IsActive": true
+        },
+        "Quantity": 2,
+        "PriceAtPurchase": 125.99
+      }
+    ]
+  }
+]
